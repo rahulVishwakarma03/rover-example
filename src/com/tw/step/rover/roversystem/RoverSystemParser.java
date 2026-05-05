@@ -4,6 +4,8 @@ import com.tw.step.rover.boundary.Boundary;
 import com.tw.step.rover.commands.CommandCreator;
 import com.tw.step.rover.commands.RoverCommand;
 import com.tw.step.rover.commands.RoverCommands;
+import com.tw.step.rover.errors.InvalidInputParsingException;
+import com.tw.step.rover.errors.ParsingException;
 import com.tw.step.rover.position.Coordinate;
 import com.tw.step.rover.position.Direction;
 import com.tw.step.rover.position.Navigator;
@@ -28,18 +30,44 @@ public class RoverSystemParser {
         return new Rover(coordinate, heading);
     }
 
-    public RoverSystem parse() {
-        RoverSystem roverSystem = new RoverSystem();
+    private void addRover(RoverSystem roverSystem) {
+        String roverId = scanner.scanId();
         Rover rover = parseRover();
-        roverSystem.addRover(rover);
+        roverSystem.addRover(roverId, rover);
+    }
+
+    private void addRoverCommands(RoverSystem roverSystem) {
+        String roverId = scanner.scanId();
         RoverCommands roverCommands = parseRoverCommands();
-        roverSystem.addCommands(roverCommands);
+        roverSystem.addCommands(roverId, roverCommands);
+    }
+
+    public RoverSystem parse() throws InvalidInputParsingException {
+        RoverSystem roverSystem = new RoverSystem();
+        String currentToken = scanner.peek();
+
+        while (currentToken != null) {
+            boolean isRoverToken = currentToken.matches("^R\\d+$");
+            boolean isCommandToken = currentToken.matches("^R\\d+:$");
+
+            if (isRoverToken) addRover(roverSystem);
+
+            if (isCommandToken) addRoverCommands(roverSystem);
+
+            if (!(isRoverToken || isCommandToken)) {
+                throw new InvalidInputParsingException("Invalid Input token");
+            }
+
+            currentToken = scanner.peek();
+        }
+
         return roverSystem;
     }
 
     private RoverCommands parseRoverCommands() {
         RoverCommands roverCommands = new RoverCommands();
         String instructions = scanner.consume();
+
         for (int i = 0; i < instructions.length(); i++) {
             RoverCommand roverCommand = commandCreator.create(instructions.charAt(i), navigator, boundary);
             roverCommands.add(roverCommand);

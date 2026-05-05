@@ -4,31 +4,31 @@ import com.tw.step.rover.commands.RoverCommand;
 import com.tw.step.rover.commands.RoverCommands;
 import com.tw.step.rover.rover.Rover;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class RoverSystem {
-    private final ArrayList<Rover> rovers = new ArrayList<>();
-    private final ArrayList<RoverCommands> allRoversCommands = new ArrayList<>();
+    private final Map<String,Rover> rovers = new HashMap<>();
+    private final Map<String,RoverCommands> roverCommandsByRoverId = new HashMap<>();
 
-    public void addRover(Rover rover) {
-        this.rovers.add(rover);
+    public void addRover(String roverId,Rover rover) {
+        this.rovers.put(roverId,rover);
     }
 
-    public void addCommands(RoverCommands roverCommands) {
-        this.allRoversCommands.add(roverCommands);
+    public void addCommands(String roverId,RoverCommands roverCommands) {
+        this.roverCommandsByRoverId.put(roverId,roverCommands);
     }
 
     public void execute() {
-        for (int index = 0; index < this.rovers.size(); index++) {
-            Rover rover = this.rovers.get(index);
-            RoverCommands roverCommands = this.allRoversCommands.get(index);
+        for (String roverId : rovers.keySet()) {
+            Rover rover = this.rovers.get(roverId);
+            RoverCommands roverCommands = this.roverCommandsByRoverId.get(roverId);
             roverCommands.execute(rover);
         }
     }
 
-        @Override
+    @Override
     public String toString() {
-        return Arrays.toString(rovers.stream().map(Rover::toString).toArray());
+        return rovers.values().toString();
     }
 }

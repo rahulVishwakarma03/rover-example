@@ -50,4 +50,10 @@ public class RoverSystemScanner {
     public Direction scanDirection() {
         return Direction.valueOf(this.consume());
     }
+
+    public String scanId(){
+        String id = consume();
+        if(id.matches("^R\\d+:$")) return id.substring(0,id.length()-1);
+        return id;
+    }
 }

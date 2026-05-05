@@ -20,6 +20,6 @@ class AppTest {
             System.setOut(originalOut);
         }
 
-        assertEquals("[-1 5 N, 6 5 E]" + System.lineSeparator(), output.toString());
+        assertEquals("[2 4 N, -1 5 N]" + System.lineSeparator(), output.toString());
     }
 }

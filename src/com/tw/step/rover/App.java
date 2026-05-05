@@ -6,6 +6,8 @@ import com.tw.step.rover.boundary.Plateau;
 import com.tw.step.rover.commands.CommandCreator;
 import com.tw.step.rover.commands.RoverCommand;
 import com.tw.step.rover.commands.RoverCommands;
+import com.tw.step.rover.errors.InvalidInputParsingException;
+import com.tw.step.rover.errors.ParsingException;
 import com.tw.step.rover.position.Coordinate;
 import com.tw.step.rover.position.Direction;
 import com.tw.step.rover.position.Navigator;
@@ -17,9 +19,11 @@ import com.tw.step.rover.roversystem.RoverSystemScanner;
 public class App {
     static void main() {
         String text = """
-5 5
-1 5 N
-LFFRFLFFFR
+                5 5
+                R1 1 5 N
+                R2 2 2 E
+                R1: LFFRFLFFFR
+                R2: LFF
                 """;
 
         RoverSystemScanner scanner = RoverSystemScanner.from(text);
@@ -29,15 +33,13 @@ LFFRFLFFFR
         Boundary boundary = new Plateau(bottomLeft, topRight);
         CommandCreator commandCreator = new CommandCreator();
         RoverSystemParser roverSystemParser = new RoverSystemParser(scanner, navigator, boundary, commandCreator);
-        RoverSystem system = roverSystemParser.parse();
-
-        // Mock data
-        system.addRover(new Rover("R1",new Coordinate(5,5), Direction.E));
-        RoverCommands roverCommands = new RoverCommands();
-        roverCommands.add(commandCreator.create('F', navigator, boundary));
-        system.addCommands(roverCommands);
-        // ---
-        system.execute();
-        System.out.println(system);
+        RoverSystem system = null;
+        try {
+            system = roverSystemParser.parse();
+            system.execute();
+            System.out.println(system);
+        } catch (InvalidInputParsingException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

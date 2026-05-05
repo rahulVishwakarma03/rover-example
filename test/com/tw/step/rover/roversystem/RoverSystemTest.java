@@ -19,8 +19,8 @@ class RoverSystemTest {
         RoverCommands commands = new RoverCommands();
         commands.add(new MoveCommand(Navigator.create(), new InfinitePlateau()));
 
-        roverSystem.addRover(rover);
-        roverSystem.addCommands(commands);
+        roverSystem.addRover("R1",rover);
+        roverSystem.addCommands("R1",commands);
         roverSystem.execute();
 
         assertEquals("[0 1 N]", roverSystem.toString());
