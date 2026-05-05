@@ -4,8 +4,12 @@ import com.tw.step.rover.boundary.Boundary;
 import com.tw.step.rover.boundary.InfinitePlateau;
 import com.tw.step.rover.boundary.Plateau;
 import com.tw.step.rover.commands.CommandCreator;
+import com.tw.step.rover.commands.RoverCommand;
+import com.tw.step.rover.commands.RoverCommands;
 import com.tw.step.rover.position.Coordinate;
+import com.tw.step.rover.position.Direction;
 import com.tw.step.rover.position.Navigator;
+import com.tw.step.rover.rover.Rover;
 import com.tw.step.rover.roversystem.RoverSystem;
 import com.tw.step.rover.roversystem.RoverSystemParser;
 import com.tw.step.rover.roversystem.RoverSystemScanner;
@@ -20,12 +24,19 @@ LFFRFLFFFR
 
         RoverSystemScanner scanner = RoverSystemScanner.from(text);
         Navigator navigator = Navigator.create();
-        Coordinate topRight = scanner.scanTopRightCoord();
+        Coordinate topRight = scanner.scanCoordinate();
         Coordinate bottomLeft = new Coordinate(0, 0);
-        Boundary boundary = new Plateau(topRight, bottomLeft);
+        Boundary boundary = new Plateau(bottomLeft, topRight);
         CommandCreator commandCreator = new CommandCreator();
         RoverSystemParser roverSystemParser = new RoverSystemParser(scanner, navigator, boundary, commandCreator);
         RoverSystem system = roverSystemParser.parse();
+
+        // Mock data
+        system.addRover(new Rover("R1",new Coordinate(5,5), Direction.E));
+        RoverCommands roverCommands = new RoverCommands();
+        roverCommands.add(commandCreator.create('F', navigator, boundary));
+        system.addCommands(roverCommands);
+        // ---
         system.execute();
         System.out.println(system);
     }
