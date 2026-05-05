@@ -4,6 +4,8 @@ import com.tw.step.rover.commands.RoverCommands;
 import com.tw.step.rover.position.Coordinate;
 import com.tw.step.rover.position.Direction;
 
+import java.util.Arrays;
+
 public class RoverSystemScanner {
     private final String[] tokens;
     private int currentIndex;
@@ -40,6 +42,12 @@ public class RoverSystemScanner {
     }
 
     public Coordinate scanCoordinate() {
+        int x = this.scanNumber();
+        int y = this.scanNumber();
+        return new Coordinate(x,y);
+    }
+
+    public Coordinate scanTopRightCoord() {
         int x = this.scanNumber();
         int y = this.scanNumber();
         return new Coordinate(x,y);
