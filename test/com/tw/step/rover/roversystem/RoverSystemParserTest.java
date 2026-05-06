@@ -1,10 +1,7 @@
 package com.tw.step.rover.roversystem;
 
-import com.tw.step.rover.boundary.InfinitePlateau;
 import com.tw.step.rover.boundary.Plateau;
 import com.tw.step.rover.commands.CommandCreator;
-import com.tw.step.rover.errors.InvalidInputParsingException;
-import com.tw.step.rover.errors.ParsingException;
 import com.tw.step.rover.position.Coordinate;
 import com.tw.step.rover.position.Navigator;
 import org.junit.jupiter.api.Test;
