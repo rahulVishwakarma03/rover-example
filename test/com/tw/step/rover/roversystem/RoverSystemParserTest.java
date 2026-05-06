@@ -21,7 +21,7 @@ class RoverSystemParserTest {
         try {
             roverSystem = parser.parse();
             roverSystem.execute();
-            assertEquals("[3 2 E]", roverSystem.toString());
+            assertEquals("3 2 E Alive", roverSystem.getState().get("R1"));
         } catch (InvalidInputParsingException e) {
             throw new RuntimeException(e);
         }

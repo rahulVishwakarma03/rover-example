@@ -29,15 +29,14 @@ public class App {
         RoverSystemScanner scanner = RoverSystemScanner.from(text);
         Navigator navigator = Navigator.create();
         Coordinate topRight = scanner.scanCoordinate();
-        Coordinate bottomLeft = new Coordinate(0, 0);
-        Boundary boundary = new Plateau(bottomLeft, topRight);
+        Boundary boundary = new Plateau(topRight);
         CommandCreator commandCreator = new CommandCreator();
         RoverSystemParser roverSystemParser = new RoverSystemParser(scanner, navigator, boundary, commandCreator);
         RoverSystem system = null;
         try {
             system = roverSystemParser.parse();
             system.execute();
-            System.out.println(system);
+            System.out.println(system.getState());
         } catch (InvalidInputParsingException e) {
             System.out.println(e.getMessage());
         }

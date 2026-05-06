@@ -20,6 +20,6 @@ class AppTest {
             System.setOut(originalOut);
         }
 
-        assertEquals("[2 4 N, -1 5 N]" + System.lineSeparator(), output.toString());
+        assertEquals("{R2=2 4 N Alive, R1=-1 5 N Dead}" + System.lineSeparator(), output.toString());
     }
 }

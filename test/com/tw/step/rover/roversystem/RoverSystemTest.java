@@ -23,6 +23,6 @@ class RoverSystemTest {
         roverSystem.addCommands("R1",commands);
         roverSystem.execute();
 
-        assertEquals("[0 1 N]", roverSystem.toString());
+        assertEquals("0 1 N Alive", roverSystem.getState().get("R1"));
     }
 }

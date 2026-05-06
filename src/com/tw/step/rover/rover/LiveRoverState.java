@@ -33,4 +33,8 @@ public class LiveRoverState implements RoverState {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "Alive";
+    }
 }

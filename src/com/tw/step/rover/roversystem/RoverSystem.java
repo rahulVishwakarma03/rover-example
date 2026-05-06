@@ -27,8 +27,12 @@ public class RoverSystem {
         }
     }
 
+    public Map<String,String> getState(){
+        return rovers.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, (entry) -> entry.getValue().toString()));
+    }
+
     @Override
     public String toString() {
-        return rovers.values().toString();
+        return rovers.toString();
     }
 }
